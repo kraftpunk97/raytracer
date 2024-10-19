@@ -1,6 +1,8 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+
+
 namespace rt {
 
     class Vec3 {
@@ -29,7 +31,7 @@ namespace rt {
         double len_sq() const;
     };
 
-    
+
 };
 
 #endif

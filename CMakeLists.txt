@@ -2,19 +2,21 @@ cmake_minimum_required ( VERSION 3.1.0)
 
 project (raytracer LANGUAGES CXX)
 
-# Set to C++11
-set(CMAKE_CXX_STANDARD 11)
+#find_package(MPI REQUIRED)  # MPI exclusive
+
+# Set to C++17
+#set(CMAKE_CXX_COMPILER mpicxx)  # MPI exclusive
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Source
-
 set(EXTERNAL src/external/stb_image.h)
-
 set(SRC 
     src/main.cpp
+    src/vec3.hpp
+    src/vec3.cpp
 )
-
 include_directories(src)
 
 message(STATUS "Compiler ID: " ${CMAKE_CXX_COMPILER_ID})
@@ -30,3 +32,4 @@ add_compile_options(-Wunused-variable) # Variable is defined but not used.
 # endif()
 
 add_executable(raytracer ${EXTERNAL} ${SRC})
+#target_link_libraries(raytracer MPI::MPI_CXX)  # MPI exclusive
