@@ -2,12 +2,11 @@
 #define VEC3_H
 
 
-
 namespace rt {
 
     class Vec3 {
-        public:
-            double e[3];
+    public:
+        double e[3];
 
         // Constructors
         Vec3();
@@ -31,7 +30,11 @@ namespace rt {
         double len_sq() const;
     };
 
+    class Somehting{
+        public:
+        double e;
+
+    };
 
 };
-
 #endif

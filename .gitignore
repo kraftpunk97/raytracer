@@ -35,3 +35,4 @@
 raytracer.code-workspace
 build/
 instructions.md
+.vscode/
