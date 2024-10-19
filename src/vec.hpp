@@ -1,40 +1,46 @@
-#ifndef VEC3_H
-#define VEC3_H
+#ifndef VEC_H
+#define VEC_H
 
+#include <iostream>
 
 namespace rt {
 
     class Vec3 {
     public:
-        double e[3];
+        float e[3];
 
         // Constructors
         Vec3();
-        Vec3(double e0, double e1, double e2);
+        Vec3(float e0, float e1, float e2);
 
-        double x() const;
-        double y() const;
-        double z() const;
+        float x() const;
+        float y() const;
+        float z() const;
 
-        double operator[](int i) const;
-        double& operator[](int i);
+        float operator[](int i) const;
+        float& operator[](int i);
 
         Vec3 operator-() const;
 
         Vec3& operator+=(const Vec3& v);
         Vec3& operator-=(const Vec3 &v);
-        Vec3& operator*=(double t);
-        Vec3& operator/=(double t);
+        Vec3& operator*=(float t);
+        Vec3& operator/=(float t);
 
-        double length() const;
-        double len_sq() const;
+        float length() const;
+        float len_sq() const;
     };
 
-    class Somehting{
-        public:
-        double e;
-
-    };
-
+    // Vector Utility Functions
+    inline std::ostream& operator<<(std::ostream& out, const Vec3& v);
+    inline Vec3 operator+(const Vec3& v1, const Vec3& v2);
+    inline Vec3 operator-(const Vec3& v1, const Vec3& v2);
+    inline Vec3 operator*(const Vec3& v1, const Vec3& v2);
+    inline Vec3 operator*(const Vec3& v, float t);
+    inline Vec3 operator*(float t, const Vec3& v);
+    inline Vec3 operator/(const Vec3& v, float t);
+    inline float dot(const Vec3& v1, const Vec3& v2);
+    inline Vec3 cross(const Vec3& v1, const Vec3& v2);
+    inline Vec3 unit_vector(const Vec3& v);
 };
 #endif

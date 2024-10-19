@@ -1,4 +1,4 @@
-cmake_minimum_required ( VERSION 3.1.0)
+cmake_minimum_required (VERSION 3.5.0)
 
 project (raytracer LANGUAGES CXX)
 
@@ -12,10 +12,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Source
 set(EXTERNAL src/external/stb_image.h)
+
 set(SRC 
     src/main.cpp
-    src/vec3.hpp
-    src/vec3.cpp
+    src/vec.hpp
+    src/vec.cpp
+    src/point.hpp
+    src/color.hpp
+    src/color.cpp
 )
 include_directories(src)
 

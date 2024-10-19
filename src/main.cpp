@@ -1,6 +1,8 @@
 // Creating the first image.
 
 #include <iostream>
+#include <vec.hpp>
+#include <color.hpp>
 
 const int image_width = 256;
 const int image_height = 256;
@@ -11,15 +13,10 @@ int main(int argc, char* argv[]) {
     for (int i=0; i<image_height; i++) {
         std::clog << "\rScanlines remaining: " << (image_height - i) << ' ' << std::flush;
         for (int j=0; j<image_width; j++) {
-            auto r = double(j) / (image_width-1);
-            auto g = double(i) / (image_height-1);
-            auto b = 0.0;
-
-            int ir = int(255.999*r);
-            int ig = int(255.999*g);
-            int ib = int(255.999*b);
-
-            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+            auto pixel_color = rt::Color(float(j) / (image_width-1),
+                                         float(i) / (image_height-1),
+                                         0.0);
+            rt::write_color(std::cout, pixel_color);
         }
 
     }    
