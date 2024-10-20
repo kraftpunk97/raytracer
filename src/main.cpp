@@ -2,13 +2,25 @@
 
 #include <iostream>
 #include "vec.hpp"
-// #include "point.hpp"
+#include "point.hpp"
 #include "color.hpp"
 #include "ray.hpp"
 
-// using namespace rt;
+bool hit_sphere(const rt::Point3& center, double radius, const rt::Ray& ray) {
+    auto direction = ray.direction();
+    auto origin = ray.origin();
+
+    auto a = rt::dot(direction, direction);
+    auto b = -2.0 * rt::dot(direction, center-origin);
+    auto c = rt::dot(center-origin, center-origin) - radius*radius;
+
+    return b*b >= 4*a*c;
+     
+}
 
 rt::Color ray_color(const rt::Ray& r) {
+    if (hit_sphere(rt::Point3(0, 0, -1), 0.5, r)) { return rt::Color(1, 0, 0); }
+    
     // Find unit vector in the direction of the ray
     auto unit_direction = rt::unit_vector(r.direction());
 
