@@ -44,8 +44,8 @@ int main(int argc, char* argv[]) {
     int image_width = 400;
 
     // Calculate the image height, and ensure it's atleast 1. 
-    int image_height = std::max(1.0, image_width/aspect_ratio);
-
+    int image_height = std::fmax(1.0, image_width/aspect_ratio);
+    
     auto focal_length = 1.0;
     auto viewport_height = 2.0;
     auto viewport_width = image_width * (viewport_height/image_height);
