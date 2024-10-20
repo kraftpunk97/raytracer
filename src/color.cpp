@@ -7,7 +7,7 @@ namespace rt {
         auto g = pixel_color.y();
         auto b = pixel_color.z();
 
-        // Translate the float values to 8-bit ints
+        // Translate the double values to 8-bit ints
         int r_val = 255.999 * r;
         int g_val = 255.999 * g;
         int b_val = 255.999 * b;

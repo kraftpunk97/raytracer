@@ -20,6 +20,8 @@ set(SRC
     src/point.hpp
     src/color.hpp
     src/color.cpp
+    src/ray.hpp
+    src/ray.cpp
 )
 include_directories(src)
 
