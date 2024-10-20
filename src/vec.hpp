@@ -73,7 +73,7 @@ namespace rt {
 
     inline Vec3 unit_vector(const Vec3& v) {
         auto len = v.length();
-        return Vec3(v.e[0]/len, v.e[1]/len, v.e[2]/len);
+        return Vec3(v.e[0], v.e[1], v.e[2])/len;
     }
 };
 #endif
