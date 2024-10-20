@@ -9,15 +9,15 @@
 
 double hit_sphere(const rt::Point3& center, double radius, const rt::Ray& ray) {
     rt::Vec3 oc = center - ray.origin();
-    auto a = rt::dot(ray.direction(), ray.direction());
-    auto b = -2.0 * rt::dot(ray.direction(), oc);
-    auto c = dot(oc, oc) - radius*radius;
-    auto discriminant = b*b - 4*a*c;
+    auto a = ray.direction().len_sq();
+    auto h = rt::dot(ray.direction(), oc);
+    auto c = oc.len_sq() - radius*radius;
+    auto discriminant = h*h - a*c;
     
     if (discriminant < 0) {
         return -1.0;
     } else {
-        return (-b - std::sqrt(discriminant) ) / (2.0*a);
+        return (h-std::sqrt(discriminant)) / a;
     }
 }
 
