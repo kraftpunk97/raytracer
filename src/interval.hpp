@@ -7,7 +7,7 @@ namespace rt {
     class Interval {
     public:
         double min, max;
-        //static const Interval empty, universe;
+        static const Interval empty, universe;
 
         Interval();
         Interval(double minimum, double maximum);
