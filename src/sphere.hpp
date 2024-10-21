@@ -2,7 +2,7 @@
 #define SPHERE_H
 
 #include "hittable.hpp"
-#include "point.hpp"
+#include "interval.hpp"
 
 
 namespace rt {
@@ -13,7 +13,7 @@ namespace rt {
 
     public:
         Sphere(const Point3& center, double radius);
-        bool hit(const Ray& ray, double ray_tmin, double ray_tmax, HitRecord& record) const override;
+        bool hit(const Ray& ray, const Interval ray_t, HitRecord& record) const override;
     };
 };
 

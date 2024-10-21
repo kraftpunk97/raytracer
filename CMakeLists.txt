@@ -11,8 +11,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Source
-set(EXTERNAL src/external/stb_image.h)
-
 set(SRC 
     src/main.cpp
     src/vec.hpp
@@ -28,6 +26,8 @@ set(SRC
     src/hittable_list.cpp
     src/sphere.hpp
     src/sphere.cpp
+    src/interval.hpp
+    src/interval.cpp
     src/utils.hpp
 )
 

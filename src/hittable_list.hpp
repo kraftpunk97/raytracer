@@ -16,7 +16,7 @@ namespace rt {
         void clear();
         void add(std::shared_ptr<Hittable> object);
         
-        bool hit(const Ray& ray, double ray_tmin, double ray_tmax, HitRecord& record) const override;
+        bool hit(const Ray& ray, const Interval ray_t, HitRecord& record) const override;
     };
 };
 #endif

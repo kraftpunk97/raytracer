@@ -7,7 +7,7 @@ namespace rt {
         this->radius = std::fmax(0, radius);
     }
 
-    bool Sphere::hit(const Ray& ray, double ray_tmin, double ray_tmax, HitRecord& record) const {
+    bool Sphere::hit(const Ray& ray, const Interval ray_t, HitRecord& record) const {
         Vec3 oc = center - ray.origin();
         auto a = ray.direction().len_sq();
         auto h = dot(ray.direction(), oc);
@@ -20,9 +20,9 @@ namespace rt {
 
         // Find the nearest root that lies in the accepable range
         auto root = (h-sqrtd) / a;
-        if (root<=ray_tmin || ray_tmax<=root) {
+        if (!ray_t.surrounds(root)) {
             root = (h+sqrtd) / a;
-            if (root<=ray_tmin || ray_tmax<=root) { return false; }
+            if (!ray_t.surrounds(root)) { return false; }
         }
 
         record.t = root;

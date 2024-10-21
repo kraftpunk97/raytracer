@@ -1,17 +1,13 @@
 // Creating the first image.
 
 #include "utils.hpp"
-#include "vec.hpp"
-#include "point.hpp"
 #include "color.hpp"
-#include "ray.hpp"
-#include "hittable.hpp"
 #include "hittable_list.hpp"
 #include "sphere.hpp"
 
 rt::Color ray_color(const rt::Ray& ray, const rt::Hittable& world) {
     rt::HitRecord record;
-    if (world.hit(ray, 0, rt::inf, record)) {
+    if (world.hit(ray, rt::Interval(0.0, rt::inf), record)) {
         return 0.5*(record.normal + rt::Color(1,1,1));
     }
     

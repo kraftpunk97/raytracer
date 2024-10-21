@@ -1,9 +1,8 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "vec.hpp"
-#include "point.hpp"
 #include "ray.hpp"
+#include "interval.hpp"
 
 namespace rt {
     class HitRecord {
@@ -20,7 +19,8 @@ namespace rt {
     public:
         virtual ~Hittable() = default;
 
-        virtual bool hit(const Ray& ray, double ray_tmin, double t_max, HitRecord& record) const = 0;
+        virtual bool hit(const Ray& ray, const Interval ray_t, HitRecord& record) const = 0;
     };
 };
+
 #endif
