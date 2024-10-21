@@ -22,7 +22,15 @@ set(SRC
     src/color.cpp
     src/ray.hpp
     src/ray.cpp
+    src/hittable.hpp
+    src/hittable.cpp
+    src/hittable_list.hpp
+    src/hittable_list.cpp
+    src/sphere.hpp
+    src/sphere.cpp
+    src/utils.hpp
 )
+
 include_directories(src)
 
 message(STATUS "Compiler ID: " ${CMAKE_CXX_COMPILER_ID})

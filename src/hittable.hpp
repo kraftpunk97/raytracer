@@ -13,7 +13,7 @@ namespace rt {
         double t;
         bool front_face;
 
-        void set_front_face(const Ray& r, const Vec3& outward_normal);
+        void set_front_normal(const Ray& r, const Vec3& outward_normal);
     };
 
     class Hittable {

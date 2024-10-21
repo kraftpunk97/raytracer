@@ -28,7 +28,7 @@ namespace rt {
         record.t = root;
         record.p = ray.at(record.t);
         auto outward_normal = (record.p-center)/radius;
-        record.set_front_face(ray, outward_normal);
+        record.set_front_normal(ray, outward_normal);
 
         return true;
     }

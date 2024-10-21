@@ -12,13 +12,14 @@ namespace rt {
         bool hit_anything = false;
         auto closest_so_far = ray_tmax;
 
-        for (auto& object: objects) {
-            if (object->hit(ray, ray_tmin, ray_tmax, temp)) {
+        for (const auto& object: objects) {
+            if (object->hit(ray, ray_tmin, closest_so_far, temp)) {
                 hit_anything = true;
                 closest_so_far = temp.t;
                 record = temp;
             }
         }
+
         return hit_anything;
     }
 };

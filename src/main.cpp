@@ -1,32 +1,18 @@
 // Creating the first image.
 
-#include <iostream>
-#include <cmath>
+#include "utils.hpp"
 #include "vec.hpp"
 #include "point.hpp"
 #include "color.hpp"
 #include "ray.hpp"
+#include "hittable.hpp"
+#include "hittable_list.hpp"
+#include "sphere.hpp"
 
-double hit_sphere(const rt::Point3& center, double radius, const rt::Ray& ray) {
-    rt::Vec3 oc = center - ray.origin();
-    auto a = ray.direction().len_sq();
-    auto h = rt::dot(ray.direction(), oc);
-    auto c = oc.len_sq() - radius*radius;
-    auto discriminant = h*h - a*c;
-    
-    if (discriminant < 0) {
-        return -1.0;
-    } else {
-        return (h-std::sqrt(discriminant)) / a;
-    }
-}
-
-rt::Color ray_color(const rt::Ray& ray) {
-    auto center = rt::Point3(0, 0, -1);
-    auto t = hit_sphere(center, 0.5, ray);
-    if (t > 0) {
-        rt::Vec3 N = rt::unit_vector(ray.at(t) - rt::Vec3(0,0,-1));
-        return 0.5*rt::Color(N.x()+1, N.y()+1, N.z()+1);
+rt::Color ray_color(const rt::Ray& ray, const rt::Hittable& world) {
+    rt::HitRecord record;
+    if (world.hit(ray, 0, rt::inf, record)) {
+        return 0.5*(record.normal + rt::Color(1,1,1));
     }
     
     // Find unit vector in the direction of the ray
@@ -38,6 +24,10 @@ rt::Color ray_color(const rt::Ray& ray) {
 }
 
 int main(int argc, char* argv[]) {
+    // World
+    rt::HittableList world;
+    world.add(std::make_shared<rt::Sphere>(rt::Point3(0,-100.5,-1), 100));
+    world.add(std::make_shared<rt::Sphere>(rt::Point3(0,0,-1), 0.5));
 
     // Image (aspect ratio and image width)
     double aspect_ratio = 16.0 / 9.0;
@@ -72,7 +62,7 @@ int main(int argc, char* argv[]) {
             auto ray_direction = pixel_center - camera_center;
             rt::Ray ray = rt::Ray(camera_center, ray_direction);
 
-            rt::Color pixel_color = ray_color(ray);
+            rt::Color pixel_color = ray_color(ray, world);
             rt::write_color(std::cout, pixel_color);
         }
     }    
