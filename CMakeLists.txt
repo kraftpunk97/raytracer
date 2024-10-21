@@ -28,6 +28,8 @@ set(SRC
     src/sphere.cpp
     src/interval.hpp
     src/interval.cpp
+    src/camera.hpp
+    src/camera.cpp
     src/utils.hpp
 )
 
