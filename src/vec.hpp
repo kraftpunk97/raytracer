@@ -27,6 +27,9 @@ namespace rt {
         Vec3& operator*=(double t);
         Vec3& operator/=(double t);
 
+        static Vec3 random();
+        static Vec3 random(double min, double max);
+
         double length() const;
         double len_sq() const;
     };
@@ -75,5 +78,27 @@ namespace rt {
         auto len = v.length();
         return Vec3(v.e[0], v.e[1], v.e[2])/len;
     }
+
+    inline Vec3 random_unit_vector() {
+        // Generate a random vector and check if its length is <= 1.
+        
+        Vec3 random_vector;
+        double len_squared;
+        do {
+            random_vector = Vec3::random();
+            len_squared = random_vector.len_sq();
+        } while (len_squared>1 || len_squared<1e-160);  // Checking for underflow as well.
+        return unit_vector(random_vector);
+    }
+
+    inline Vec3 random_on_hemisphere(const Vec3& normal) {
+        // Generate a random unit vector, and check its dot with the 
+        // normal.
+
+        auto random_unit_vec = random_unit_vector();
+        if (dot(random_unit_vec, normal) > 0) { return random_unit_vec; }
+        else { return -random_unit_vec; }
+    }
+
 };
 #endif

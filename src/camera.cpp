@@ -46,7 +46,8 @@ namespace rt {
     Color Camera::ray_color(const Ray& ray, const Hittable& world) {
         rt::HitRecord record;
         if (world.hit(ray, rt::Interval(0.0, rt::inf), record)) {
-            return 0.5*(record.normal + rt::Color(1,1,1));
+            auto direction = random_on_hemisphere(record.normal);
+            return 0.5 * ray_color(Ray(record.p,direction), world);
         }
         
         // Background

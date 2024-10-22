@@ -1,4 +1,5 @@
 #include <cmath>
+#include "utils.hpp"
 #include "vec.hpp"
 
 namespace rt {
@@ -49,6 +50,16 @@ namespace rt {
         e[1] /= t;
         e[2] /= t;
         return *this;
+    }
+
+    Vec3 Vec3::random() {
+        return Vec3(random_double(), random_double(), random_double());
+    }
+
+    Vec3 Vec3::random(double min, double max) {
+        return Vec3(random_double(min, max),
+                    random_double(min, max),
+                    random_double(min, max));
     }
 
     double Vec3::len_sq() const { return e[0]*e[0] + e[1]*e[1] + e[2]*e[2]; }

@@ -7,8 +7,8 @@
 namespace rt {
     class HitRecord {
     public:
-        Point3 p;
-        Vec3 normal;
+        Point3 p; // Point of inflection
+        Vec3 normal; // Normal at the point of inflection
         double t;
         bool front_face;
 
