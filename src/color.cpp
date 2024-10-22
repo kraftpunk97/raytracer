@@ -8,9 +8,10 @@ namespace rt {
         auto b = pixel_color.z();
 
         // Translate the double values to 8-bit ints
-        int r_val = 255.999 * r;
-        int g_val = 255.999 * g;
-        int b_val = 255.999 * b;
+        static const Interval intensity(0.000, 0.999);
+        int r_val = 256 * intensity.clamp(r);
+        int g_val = 256 * intensity.clamp(g);
+        int b_val = 256 * intensity.clamp(b);
 
         // Write out the pixel color components
         out << r_val << ' ' << g_val << ' ' << b_val << '\n';

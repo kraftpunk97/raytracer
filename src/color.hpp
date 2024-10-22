@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "vec.hpp"
+#include "interval.hpp"
 
 namespace rt {
     using Color = Vec3;

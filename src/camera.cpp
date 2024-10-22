@@ -24,15 +24,36 @@ namespace rt {
         pixel00_loc = viewport00 + (pixel_x_delta+pixel_y_delta)/2;  // I guess the pixel is at the center of the viewport cell.
     }
 
+    Ray Camera::get_ray(int x, int y) const {
+        // Construct a camera originating from the origin and directed at randomly sampled 
+        // point around the location (x, y).
+
+        auto offset = sample_square();
+        auto pixel_sample = pixel00_loc + (x+offset.x())*pixel_x_delta
+                                        + (y+offset.y())*pixel_y_delta;
+
+        auto ray_direction = pixel_sample - camera_center;
+
+        return Ray(camera_center, ray_direction);
+
+    }
+
+    Vec3 Camera::sample_square() const {
+        // Returns the vector to a random point in the [-.5,-.5] -> [.5,.5] unit sqaure
+        return Vec3(random_double()-0.5, random_double()-0.5, 0);
+    }
+
     Color Camera::ray_color(const Ray& ray, const Hittable& world) {
         rt::HitRecord record;
         if (world.hit(ray, rt::Interval(0.0, rt::inf), record)) {
             return 0.5*(record.normal + rt::Color(1,1,1));
         }
         
+        // Background
+
         // Find unit vector in the direction of the ray
         auto unit_direction = rt::unit_vector(ray.direction());
-
+        
         // Linearly scale the blue
         auto a = 0.5*(unit_direction.y() + 1.0); // -1<=y<=1 => 0<=y+1<=2 => 0<=0.5(y+1)<=1 
         return (1.0-a)*rt::Color(1.0, 1.0, 1.0) + a*rt::Color(0.5, 0.7, 1.0);
@@ -46,16 +67,15 @@ namespace rt {
 
         for (int y=0; y<image_height; y++) {
             std::clog << "\rScanlines remaining: " << (image_height - y) << ' ' << std::flush;
-            for (int x=0; x<image_width; x++) {
-                auto pixel_center = pixel00_loc + x*pixel_x_delta + y*pixel_y_delta;
-                auto ray_direction = pixel_center - camera_center;
-                rt::Ray ray = rt::Ray(camera_center, ray_direction);
-
-                rt::Color pixel_color = ray_color(ray, world);
-                rt::write_color(std::cout, pixel_color);
+            for (int x=0; x<image_width; x++) {;
+                Color pixel_color = Color(0, 0, 0);
+                for (int i=0; i<num_pixel_samples; i++) {
+                    Ray ray = get_ray(x, y);
+                    pixel_color += ray_color(ray, world)/num_pixel_samples;    
+                }
+                write_color(std::cout, pixel_color);
             }
         }    
         std::clog << "\rDone.              \n";
     }
-
 };

@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <random>
 #include <limits>
 #include <memory>
 
@@ -13,5 +14,11 @@ namespace rt {
 
 
     inline double deg2rad(double degrees) { return degrees*pi/180.0; }
+
+    inline double random_double(double min=0.000, double max=1.000) {
+        static std::uniform_real_distribution<double> distribution(0.0, 1.0);
+        static std::mt19937 generator;
+        return min + (max-min)*distribution(generator);
+    }
 };
 #endif
