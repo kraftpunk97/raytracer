@@ -73,17 +73,15 @@ namespace rt {
 
         // Render
         std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-        double gamma_arr[] = {0.1, 0.3, 0.5, 0.7, 0.9};
 
         for (int y=0; y<image_height; y++) {
             std::clog << "\rScanlines remaining: " << (image_height - y) << ' ' << std::flush;
             for (int x=0; x<image_width; x++) {;
                 Color pixel_color = Color(0, 0, 0);
-                double gamma = gamma_arr[(int)(5*x)/image_width];
                 for (int i=0; i<num_pixel_samples; i++) {
                     Ray ray = get_ray(x, y);
 
-                    pixel_color += ray_color(ray, world, gamma)/num_pixel_samples;    
+                    pixel_color += ray_color(ray, world)/num_pixel_samples;    
                 }
                 write_color(std::cout, pixel_color);
             }
