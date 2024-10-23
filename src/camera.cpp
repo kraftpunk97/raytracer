@@ -1,5 +1,6 @@
 #include <iostream>
 #include "camera.hpp"
+#include "material.hpp"
 
 namespace rt {
 
@@ -49,8 +50,12 @@ namespace rt {
 
         rt::HitRecord record;
         if (world.hit(ray,rt::Interval(0.001,rt::inf), record)) {
-            auto direction = record.normal + random_unit_vector();
-            return 0.1 * ray_color(Ray(record.p,direction), world, recursive_depth+1);
+            Color attenuation;
+            Ray ray_scattered;
+            if (record.mat->scatter(ray, record, attenuation, ray_scattered)) {
+                return attenuation * ray_color(ray_scattered, world, recursive_depth+1);
+            }
+            return Color(0, 0, 0);
         }
         
         // Background

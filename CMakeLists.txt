@@ -31,6 +31,8 @@ set(SRC
     src/camera.hpp
     src/camera.cpp
     src/utils.hpp
+    src/material.hpp
+    src/material.cpp
 )
 
 include_directories(src)
@@ -45,6 +47,8 @@ add_compile_options(-Wnon-virtual-dtor) # Class has virtual functions, but its d
 add_compile_options(-Wreorder) # Data member will be init after [other] data member
 add_compile_options(-Wmaybe-uninitialized) # Variables improperly initialized
 add_compile_options(-Wunused-variable) # Variable is defined but not used.
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
 # endif()
 
 add_executable(raytracer ${EXTERNAL} ${SRC})

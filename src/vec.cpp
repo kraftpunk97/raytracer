@@ -64,4 +64,9 @@ namespace rt {
 
     double Vec3::len_sq() const { return e[0]*e[0] + e[1]*e[1] + e[2]*e[2]; }
     double Vec3::length() const { return std::sqrt(Vec3::len_sq()); }
+
+    bool Vec3::near_zero() const {
+        // Return true if vector is close to zero in all directions.
+        return std::fabs(e[0])<s && std::fabs(e[1])<s && std::fabs(e[2])<s;
+    }
 };

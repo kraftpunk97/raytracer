@@ -10,9 +10,10 @@ namespace rt {
     private:
         Point3 center;
         double radius;
+        std::shared_ptr<Material> mat;
 
     public:
-        Sphere(const Point3& center, double radius);
+        Sphere(const Point3& center, double radius, std::shared_ptr<Material> mat);
         bool hit(const Ray& ray, const Interval ray_t, HitRecord& record) const override;
     };
 };

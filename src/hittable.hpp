@@ -5,10 +5,13 @@
 #include "interval.hpp"
 
 namespace rt {
+    class Material;
+
     class HitRecord {
     public:
         Point3 p; // Point of inflection
         Vec3 normal; // Normal at the point of inflection
+        std::shared_ptr<Material> mat;
         double t;
         bool front_face;
 

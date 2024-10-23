@@ -2,6 +2,7 @@
 #define VEC_H
 
 #include <iostream>
+#include "utils.hpp"
 
 namespace rt {
 
@@ -32,6 +33,7 @@ namespace rt {
 
         double length() const;
         double len_sq() const;
+        bool near_zero() const;
     };
 
     // Vector Utility Functions
@@ -98,6 +100,15 @@ namespace rt {
         auto random_unit_vec = random_unit_vector();
         if (dot(random_unit_vec, normal) > 0) { return random_unit_vec; }
         else { return -random_unit_vec; }
+    }
+
+    inline Vec3 reflect(const Vec3& v, const Vec3& n) {
+        
+        // Calculate b, by scaling n by a factor of dot(v, n)
+        Vec3 b = n * dot(v, n);
+
+        // Perform v - 2b
+        return v - 2*b;
     }
 
 };

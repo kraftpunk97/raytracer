@@ -2,9 +2,10 @@
 #include "sphere.hpp"
 
 namespace rt {
-    Sphere::Sphere(const Point3& center, double radius) {
+    Sphere::Sphere(const Point3& center, double radius, std::shared_ptr<Material> mat) {
         this->center = center;
         this->radius = std::fmax(0, radius);
+        this->mat = mat;
     }
 
     bool Sphere::hit(const Ray& ray, const Interval ray_t, HitRecord& record) const {
@@ -29,7 +30,7 @@ namespace rt {
         record.p = ray.at(record.t);
         auto outward_normal = (record.p-center)/radius;
         record.set_front_normal(ray, outward_normal);
-
+        record.mat = mat;
         return true;
     }
 };
