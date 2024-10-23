@@ -14,7 +14,7 @@ namespace rt {
         Vec3 pixel_y_delta;    // Offset to the pixel below
         
         void initialize();
-        Color ray_color(const Ray& ray, const Hittable& world);
+        Color ray_color(const Ray& ray, const Hittable& world, int recursive_depth);
         Ray get_ray(int x, int y) const;
         Vec3 sample_square() const;
     public:
@@ -22,6 +22,7 @@ namespace rt {
         double aspect_ratio = 16.0 / 9.0;
         int image_width = 400;
         int num_pixel_samples = 10;  // Count the number of random samples for each pixel
+        int max_depth = 10;  // Max recursive depth of `ray_color`.
         
         void render(const Hittable& world);
     };

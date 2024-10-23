@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
     rt::Camera camera;
     camera.aspect_ratio = 16.0 / 9.0;
     camera.image_width = 400;
+    camera.max_depth = 50;
 
     // World
     rt::HittableList world;

@@ -43,11 +43,14 @@ namespace rt {
         return Vec3(random_double()-0.5, random_double()-0.5, 0);
     }
 
-    Color Camera::ray_color(const Ray& ray, const Hittable& world) {
+    Color Camera::ray_color(const Ray& ray, const Hittable& world, int recursive_depth=0) {
+        // If we've exceeded the max recursive depth, gather no more light.
+        if (recursive_depth > max_depth) { return Color(0, 0, 0); }
+
         rt::HitRecord record;
-        if (world.hit(ray, rt::Interval(0.0, rt::inf), record)) {
-            auto direction = random_on_hemisphere(record.normal);
-            return 0.5 * ray_color(Ray(record.p,direction), world);
+        if (world.hit(ray,rt::Interval(0.001,rt::inf), record)) {
+            auto direction = record.normal + random_unit_vector();
+            return 0.1 * ray_color(Ray(record.p,direction), world, recursive_depth+1);
         }
         
         // Background
@@ -65,14 +68,17 @@ namespace rt {
 
         // Render
         std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
+        double gamma_arr[] = {0.1, 0.3, 0.5, 0.7, 0.9};
 
         for (int y=0; y<image_height; y++) {
             std::clog << "\rScanlines remaining: " << (image_height - y) << ' ' << std::flush;
             for (int x=0; x<image_width; x++) {;
                 Color pixel_color = Color(0, 0, 0);
+                double gamma = gamma_arr[(int)(5*x)/image_width];
                 for (int i=0; i<num_pixel_samples; i++) {
                     Ray ray = get_ray(x, y);
-                    pixel_color += ray_color(ray, world)/num_pixel_samples;    
+
+                    pixel_color += ray_color(ray, world, gamma)/num_pixel_samples;    
                 }
                 write_color(std::cout, pixel_color);
             }
