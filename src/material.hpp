@@ -52,6 +52,8 @@ namespace rt {
 
         bool scatter(const Ray& ray_in, const HitRecord& record,
                      Color& attenuation, Ray& ray_scattered) const override;
+
+        static double reflectance(double cosine, double refraction_index);
     };
 };
 
