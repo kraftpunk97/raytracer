@@ -42,6 +42,17 @@ namespace rt {
         bool scatter(const Ray& ray_in, const HitRecord& record,
                      Color& attenuation, Ray& ray_scattered) const override;
     };
+
+    class Dielectric: public Material {
+    private:
+        double refraction_index;
+
+    public:
+        Dielectric(double refraction_index);
+
+        bool scatter(const Ray& ray_in, const HitRecord& record,
+                     Color& attenuation, Ray& ray_scattered) const override;
+    };
 };
 
 #endif

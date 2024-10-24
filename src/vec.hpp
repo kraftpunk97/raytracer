@@ -111,5 +111,12 @@ namespace rt {
         return v - 2*b;
     }
 
+    inline Vec3 refract(const Vec3& v, const Vec3& normal, double etai_over_etat) {
+        auto cos_theta = std::fmin(dot(-v, normal), 1);
+        Vec3 perpendicular =  etai_over_etat*(cos_theta*normal + v);
+        Vec3 parallel = std::sqrt(std::fabs(1.0-perpendicular.len_sq())) * (-normal);
+        return parallel + perpendicular;
+    }
+
 };
 #endif

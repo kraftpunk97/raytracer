@@ -31,4 +31,17 @@ namespace rt {
         // If the fuzzy reflected ray is scattered below the surface, just absorb them.
         return (dot(reflect_direction,record.normal) > 0);
     }
+
+    Dielectric::Dielectric(double refraction_index) {
+        this->refraction_index = refraction_index;
+    }
+
+    bool Dielectric::scatter(const Ray& ray_in, const HitRecord& record,
+                             Color& attenuation, Ray& ray_scattered) const {
+        double ri = record.front_face ? (1/refraction_index) : refraction_index; 
+        auto refract_direction = refract(unit_vector(ray_in.direction()), record.normal, ri);
+        ray_scattered = Ray(record.p, refract_direction);
+        attenuation = Color(1.0, 1.0, 1.0);
+        return true;
+    }
 };  

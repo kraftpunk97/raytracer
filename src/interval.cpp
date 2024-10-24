@@ -18,7 +18,6 @@ namespace rt {
         if (x < min) { return min; }
         if (x > max) { return max; }
         return x;
-
     }
     
     const Interval Interval::empty = Interval(inf, -inf);
