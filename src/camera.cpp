@@ -9,10 +9,10 @@ namespace rt {
         image_height = std::fmax(1.0, image_width/aspect_ratio);
         camera_center = look_from;
         
-        auto focal_length = (look_from-look_at).length();
+        //auto focal_length = (look_from-look_at).length();
         auto theta = deg2rad(vertical_fov);
         auto h = std::tan(theta/2);
-        auto viewport_height = 2 * h * focal_length;
+        auto viewport_height = 2 * h * focus_dist;
         auto viewport_width = image_width * (viewport_height/image_height);
 
         w = unit_vector(look_from - look_at);  // Towards the object
@@ -27,18 +27,24 @@ namespace rt {
 
         // Calculate the position of the upper left pixel
         auto viewport00 = camera_center - viewport_x/2 - viewport_y/2
-                        - (focal_length*w);
+                        - (focus_dist*w);
         pixel00_loc = viewport00 + (pixel_x_delta+pixel_y_delta)/2;  // I guess the pixel is at the center of the viewport cell.
+
+        // Calculate the camera defocus disk basis vectors
+        auto defocus_radius = focus_dist * (std::tan(deg2rad(defocus_angle/2)));
+        defocus_disk_u = u * defocus_radius;
+        defocus_disk_v = v * defocus_radius;
     }
 
     Ray Camera::get_ray(int x, int y) const {
-        // Construct a camera originating from the origin and directed at randomly sampled 
+        // Construct a camera originating from the defocus disk and directed at randomly sampled 
         // point around the location (x, y).
 
         auto offset = sample_square();
         auto pixel_sample = pixel00_loc + (x+offset.x())*pixel_x_delta
                                         + (y+offset.y())*pixel_y_delta;
 
+        auto ray_origin = defocus_angle<=0 ? camera_center : defocus_disk_sample();
         auto ray_direction = pixel_sample - camera_center;
 
         return Ray(camera_center, ray_direction);
@@ -93,5 +99,11 @@ namespace rt {
             }
         }    
         std::clog << "\rDone.              \n";
+    }
+
+    Point3 Camera::defocus_disk_sample() const {
+        // Return a random point in the camera defocus disk
+        auto p = random_in_disk();
+        return camera_center + (p[0]*defocus_disk_u) + (p[1]*defocus_disk_v);
     }
 };

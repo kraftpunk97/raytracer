@@ -17,6 +17,8 @@ int main(int argc, char* argv[]) {
     camera.look_from = rt::Point3(-2, 2, 1);
     camera.look_at = rt::Point3(0, 0, -1);
     camera.up_vector = rt::Vec3(0, 1, 0);
+    camera.defocus_angle = 10.0;
+    camera.focus_dist = 3.4;
 
 
     // Materials

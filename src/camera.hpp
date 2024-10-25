@@ -13,11 +13,15 @@ namespace rt {
         Vec3 pixel_x_delta;    // Offset to the pixel on the right
         Vec3 pixel_y_delta;    // Offset to the pixel below
         Vec3 u, v, w;          // Camera Frame Basis Vectors
+        Vec3 defocus_disk_u;   // Defocus disk horizontal radius   
+        Vec3 defocus_disk_v;   // Defocus disk vertical radius
         
         void initialize();
         Color ray_color(const Ray& ray, const Hittable& world, int recursive_depth);
         Ray get_ray(int x, int y) const;
         Vec3 sample_square() const;
+        Point3 defocus_disk_sample() const;
+        
     public:
         // Image (aspect ratio and image width)
         double aspect_ratio = 16.0 / 9.0;
@@ -29,6 +33,8 @@ namespace rt {
         Point3 look_from = Point3(0, 0, 0);  // Camera position
         Point3 look_at = Point3(0, 0, -1);  // Camera aim
         Point3 up_vector = Vec3(0, 1, 0);  // Orthogonal Up Vector
+        double defocus_angle = 0; // Variation angle of rays through each pixel
+        double focus_dist = 10; // Distance from camera `look_from` to the plane of perfect focus.        
         
         void render(const Hittable& world);
     };

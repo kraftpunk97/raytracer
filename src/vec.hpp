@@ -102,6 +102,16 @@ namespace rt {
         else { return -random_unit_vec; }
     }
 
+    inline Vec3 random_in_disk() {
+        Vec3 random_vector;
+        double len_squared;
+        do {
+            random_vector = Vec3(random_double(-1,1), random_double(-1,1), 0);
+            len_squared = random_vector.len_sq();
+        } while (len_squared>1 || len_squared<1e-160);
+        return random_vector;
+    }
+
     inline Vec3 reflect(const Vec3& v, const Vec3& n) {
         
         // Calculate b, by scaling n by a factor of dot(v, n)
