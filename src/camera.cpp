@@ -7,21 +7,27 @@ namespace rt {
     void Camera::initialize() {
         // Calculate the image height, and ensure it's atleast 1.
         image_height = std::fmax(1.0, image_width/aspect_ratio);
-        camera_center = rt::Point3(0, 0, 0);
+        camera_center = look_from;
         
-        auto focal_length = 1.0;
-        auto viewport_height = 2.0;
+        auto focal_length = (look_from-look_at).length();
+        auto theta = deg2rad(vertical_fov);
+        auto h = std::tan(theta/2);
+        auto viewport_height = 2 * h * focal_length;
         auto viewport_width = image_width * (viewport_height/image_height);
 
-        auto viewport_x = rt::Vec3(viewport_width, 0, 0);  // Vector across the viewport
-        auto viewport_y = rt::Vec3(0, -viewport_height, 0);  // Vector down the viewport
+        w = unit_vector(look_from - look_at);  // Towards the object
+        u = unit_vector(cross(up_vector, w));
+        v = cross(w, u);
+
+        auto viewport_x = viewport_width  *  u;  // Vector across the viewport
+        auto viewport_y = viewport_height * -v;  // Vector down the viewport
 
         pixel_x_delta = viewport_x / image_width;  
         pixel_y_delta = viewport_y / image_height;
 
         // Calculate the position of the upper left pixel
         auto viewport00 = camera_center - viewport_x/2 - viewport_y/2
-                        - rt::Vec3(0, 0, focal_length);
+                        - (focal_length*w);
         pixel00_loc = viewport00 + (pixel_x_delta+pixel_y_delta)/2;  // I guess the pixel is at the center of the viewport cell.
     }
 
