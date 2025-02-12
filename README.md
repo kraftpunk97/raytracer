@@ -76,10 +76,6 @@ Glass surfaces
 
 ![](images/final%20render.png)
 
-## Reference
-
-[_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
-
 <hr>
 * = Technically a path tracer, but we will improve upon it.
 
